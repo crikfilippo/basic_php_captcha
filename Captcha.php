@@ -31,7 +31,7 @@ class Captcha{
 	}
 
 	//check if form token was issued less than 1 hour ago
-	public static function isFormTokenInTime(string $formToken) 
+	private static function isFormTokenInTime(string $formToken) : bool
 	{
 		try{
 			$maxTime = 3600; //1 hour
