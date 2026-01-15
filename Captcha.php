@@ -2,35 +2,48 @@
 namespace BasicCaptcha;
 
 class Captcha{
+	
+	private static string $key = 'lisnLJNBUI678624'; //salt key, please use your own
+	private static string $ive = 'fecb016b666c47c2'; //initialization vector, 16 characters
 
-  //fixed custom key, use your own
-	private static string $key = 'lisnLJNBUI678624';
-
-  //generate a token to be sent along with the captcha
-	public static function generateFormToken() : string
-	{ 
-		return bin2hex(random_bytes(6)); 
-		
+	//generate a token to be sent along with the captcha
+	public static function generateFormToken():string
+	{
+		return  openssl_encrypt(time(),'aes-128-cbc-hmac-sha256',self::$key,0,self::$ive);
 	}
 
-  //generate captcha value itself
-	public static function generate(string $formToken):string
+	//generate captcha value itself
+	public static function generate(string $formToken) : string
 	{
 		$c = hash('crc32',self::$key.$formToken,false); 
 		$c = self::fixChars($c);
 		return $c;
 	}
-
-  //check a captcha value (form input) using form token 
-	public static function verify(string $captcha,string $formToken):bool
+	
+	//check a captcha value (form input) using form token 
+	public static function verify(string $captcha,string $formToken) : bool
 	{
 		if(strlen($captcha) != 8){return false;}
-		if(strlen($formToken) != 12){return false;}
+		if(strlen($formToken) < 20 || strlen($formToken) > 100){return false;}
+		if( ! self::isFormTokenInTime($formToken)){ return false; }
 		$check = self::generate($formToken);
 		return $captcha == $check;
 	}
 
-  //force uppercase and replace easily mistaken characters
+	//check if form token was issued less than 1 hour ago
+	public static function isFormTokenInTime(string $formToken) 
+	{
+		try{
+			$maxTime = 3600; //1 hour
+			$formTokenTime =  openssl_decrypt($formToken,'aes-128-cbc-hmac-sha256',self::$key,0,self::$ive);
+			return (time() - $formTokenTime) > $maxTime ? false : true;
+		}catch(\Throwable $e){
+			return false;
+		}
+		
+	}
+
+	//force uppercase and replace easily mistaken characters
 	private static function fixChars(string $s,  bool $reset = false) : string
 	{
 		$s = strtoupper($s);
@@ -47,7 +60,7 @@ class Captcha{
 		return $s;
 	}
 
-  //generate a base64 image of a string captcha (exposed on the form)
+	//generate a base64 image of a string captcha (exposed on the form)
 	public static function getB64(string $captcha) : string
 	{
 		
@@ -64,7 +77,5 @@ class Captcha{
 		
 	}	
 }
-
-
 
 
