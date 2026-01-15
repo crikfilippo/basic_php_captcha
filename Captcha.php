@@ -5,13 +5,14 @@ class Captcha{
 	
 	private static string $key = 'lisnLJNBUI678624'; //salt key, please use your own
 	private static string $ive = 'fecb016b666c47c2'; //initialization vector, 16 characters
+	private static string $alg = 'aes-128-cbc'; //encryption algo
 
 	//generate a token to be sent along with the captcha
 	public static function generateFormToken():string
 	{
 		$randomPrefix = bin2hex(random_bytes(2));
 		$timeString = $randomPrefix.'_'.time();
-		return  openssl_encrypt($timeString,'aes-128-cbc',self::$key,0,self::$ive);
+		return  openssl_encrypt($timeString,self::$alg,self::$key,0,self::$ive);
 	}
 
 	//generate captcha value itself
@@ -37,7 +38,7 @@ class Captcha{
 	{
 		try{
 			$maxTime = 3600; //1 hour
-			$formTokenTime =  openssl_decrypt($formToken,'aes-128-cbc-hmac-sha256',self::$key,0,self::$ive);
+			$formTokenTime =  openssl_decrypt($formToken,self::$alg,self::$key,0,self::$ive);
 			$formTokenTime = substr($formTokenTime, (strpos($formTokenTime,'_') + 1) );
 			if( ! is_numeric($formTokenTime)){return false;}
 			return (time() - $formTokenTime) > $maxTime ? false : true;
