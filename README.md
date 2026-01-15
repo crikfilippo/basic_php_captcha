@@ -1,6 +1,9 @@
 # basic_php_captcha
 A simple php class to generate and check captcha values.
-<br> Single file class, no database needed.
+<br>Notes:
+<br>- Single file class, no database needed.
+<br>- The check is not case sensitive.
+<br>- A token can be used within 1 hour.
 
 # usage
 1. include the class in your project and assign a new own value to the static class property $key.
