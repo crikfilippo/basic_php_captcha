@@ -2,7 +2,7 @@
 A simple php class to generate and check captcha values
 
 # usage
-1. assign a new own value to the static attribute $key.
+1. include the class in your project and assign a new own value to the static class property $key.
 2. use $formToken = Captcha::generateFormToken() to obtain a new token to be sent alongside the captcha value inserted by the form user.
 3. use $captchaValue = Captcha::generate($formToken), passing the previously obtained form token, to obtain a new captcha value.
 4. use $captchaBase64 = Captcha::getB64($captchaValue), passing the previously obtained captcha value, to obtain a base64 encoded image of the captcha value.
