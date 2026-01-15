@@ -9,7 +9,9 @@ class Captcha{
 	//generate a token to be sent along with the captcha
 	public static function generateFormToken():string
 	{
-		return  openssl_encrypt(time(),'aes-128-cbc-hmac-sha256',self::$key,0,self::$ive);
+		$randomPrefix = bin2hex(random_bytes(2));
+		$timeString = $randomPrefix.'_'.time();
+		return  openssl_encrypt($timeString,'aes-128-cbc-hmac-sha256',self::$key,0,self::$ive);
 	}
 
 	//generate captcha value itself
@@ -36,6 +38,8 @@ class Captcha{
 		try{
 			$maxTime = 3600; //1 hour
 			$formTokenTime =  openssl_decrypt($formToken,'aes-128-cbc-hmac-sha256',self::$key,0,self::$ive);
+			$formTokenTime = substr($formTokenTime, (strpos($formTokenTime,'_') + 1) );
+			if( ! is_numeric($formTokenTime)){return false;}
 			return (time() - $formTokenTime) > $maxTime ? false : true;
 		}catch(\Throwable $e){
 			return false;
