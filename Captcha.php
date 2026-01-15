@@ -29,6 +29,7 @@ class Captcha{
 		if(strlen($captcha) != 8){return false;}
 		if(strlen($formToken) < 20 || strlen($formToken) > 100){return false;}
 		if( ! self::isFormTokenInTime($formToken)){ return false; }
+		$captcha = strtoupper($captcha);
 		$check = self::generate($formToken);
 		return $captcha == $check;
 	}
