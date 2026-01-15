@@ -1,5 +1,6 @@
 # basic_php_captcha
-A simple php class to generate and check captcha values
+A simple php class to generate and check captcha values.
+<br> single file class, no DB needed.
 
 # usage
 1. include the class in your project and assign a new own value to the static class property $key.
