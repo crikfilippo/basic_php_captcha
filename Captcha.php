@@ -11,7 +11,7 @@ class Captcha{
 	{
 		$randomPrefix = bin2hex(random_bytes(2));
 		$timeString = $randomPrefix.'_'.time();
-		return  openssl_encrypt($timeString,'aes-128-cbc-hmac-sha256',self::$key,0,self::$ive);
+		return  openssl_encrypt($timeString,'aes-128-cbc',self::$key,0,self::$ive);
 	}
 
 	//generate captcha value itself
