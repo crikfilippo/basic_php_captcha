@@ -23,7 +23,7 @@ class Captcha{
 	private static int $maxTokenSeconds = 3600; //max token time, in seconds
 
 	//generate a token to be sent along with the captcha
-	public static function generateFormToken():string
+	public static function generateFormToken() : string
 	{
 		$randomPrefix = bin2hex(random_bytes(2));
 		$timeString = $randomPrefix.'_'.time();
@@ -49,7 +49,7 @@ class Captcha{
 		return $captcha == $check;
 	}
 
-	//check if form token was issued less than 1 hour ago
+	//check if form token was issued before allowed maximum
 	private static function isFormTokenInTime(string $formToken) : bool
 	{
 		try{
