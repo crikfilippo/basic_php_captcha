@@ -1,2 +1,15 @@
 # basic_php_captcha
 A simple php class to generate and check captcha values
+
+# usage
+1. assign a new own value to the static attribute $key.
+2. use $formToken = Captcha::generateFormToken() to obtain a new token to be sent alongside the captcha value inserted by the form user.
+3. use $captchaValue = Captcha::generate($formToken), passing the previously obtained form token, to obtain a new captcha value.
+4. use $captchaBase64 = Captcha::getB64($captchaValue), passing the previously obtained captcha value, to obtain a base64 encoded image of the captcha value.
+5. in a form, add an <img src="data:image/png;base64,<?php echo $captchaBase64;?>"> node, needed to show the user the captcha image.
+6. in the same form, add a <input type="text" maxlength="8" name="captcha" placeholder="Input the captcha code" required /> input, needed to let the user input the captcha code.
+7. in the form processing page, use $isCaptchaValid = Captcha::verify($captcha,$formToken); making sure both the arguments are obtained from the post submission, to check if the captcha input is valid.
+
+# demo
+You can try a simple form implementation including demo.php in your project.
+Please remove the file when no more needed.
