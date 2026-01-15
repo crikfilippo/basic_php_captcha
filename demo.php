@@ -5,7 +5,7 @@
 //---------------
 
 require_once('Captcha.php');
-use BasicCaptcha/Captcha;
+use BasicCaptcha\Captcha;
 
 $getCaptcha = $_GET['captcha'] ?? '';
 $getToken	= $_GET['token'] ?? '';
@@ -31,7 +31,7 @@ $isFormSubmitted = strlen($getCaptcha) > 0;
 			
 			
 			?>
-			<form method="GET" action="/">
+			<form method="GET">
 				<input type="hidden" name="token" value="<?php echo $token; ?>" />
 				<p><img src="data:image/png;base64,<?php echo $base64;?>" style="width:200px;"></p>
 				<p><input required type="text" name="captcha" maxlength="<?php echo strlen($captcha); ?>" placeholder="Enter captcha code" style="width:200px; box-sizing: border-box;" /></p>
@@ -58,4 +58,3 @@ $isFormSubmitted = strlen($getCaptcha) > 0;
 
 	</body>
 </html>
-
