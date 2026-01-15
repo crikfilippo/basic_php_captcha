@@ -14,3 +14,7 @@ A simple php class to generate and check captcha values.
 # demo
 You can try a simple form implementation including demo.php in your project.
 Please remove the file when no more needed.
+
+# screenshots
+<img width="276" height="212" alt="image" src="https://github.com/user-attachments/assets/1058044a-9544-4a69-9c04-f2b1824327c5" />
+
