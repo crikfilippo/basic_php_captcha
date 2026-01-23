@@ -148,7 +148,7 @@ class Captcha{
 			$media = [];
 			for($c = 0; $c < (strlen($captcha)); $c++){
 				
-				$audio[] = Captcha::$b64AudioChars[$languageCode][$captcha[$c]] ?? '';
+				$media[] = Captcha::$b64AudioChars[$languageCode][$captcha[$c]] ?? '';
 				
 			}
 		}
