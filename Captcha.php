@@ -69,13 +69,11 @@ class Captcha{
 		$s = strtoupper($s);
 		if($reset){
 			$s = str_replace('%','0',$s); 
-			$s = str_replace('?','O',$s); 
-			$s = str_replace('#','I',$s); 
+			$s = str_replace('?','0',$s); 
+			$s = str_replace('#','0',$s); 
 		}
 		else{
-			$s = str_replace('0','%',$s); 
-			$s = str_replace('O','?',$s); 
-			$s = str_replace('I','#',$s); 
+			$s = str_replace('0',['%','#','?'][rand(0,2)],$s); ; 
 		}
 		return $s;
 	}
