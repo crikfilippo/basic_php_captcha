@@ -14,6 +14,13 @@ A simple php class to generate and check captcha values.
 6. in the same form, add a ``` <input type="text" maxlength="8" name="captcha" placeholder="Input the captcha code" required /> ``` input, needed to let the user input the captcha code.
 7. in the form processing page, use ``` $isCaptchaValid = Captcha::verify($captcha,$formToken); ``` making sure both the arguments are obtained from the post submission, to check if the captcha input is valid.
 
+# audio player
+You can obtain an array of base64 audios by using ```Captcha::getB64($captchaValue,'audio','en');```
+on your page, add all the obtained audios using <b>hidden</b> audio elements: ``` echo "<audio style=\"display:none;\" class=\"captcha_audio\" src=\"data:audio/mpeg;base64,{$a}\"></audio>"; ```
+and a button to play them all: ``` <button type="button" class="captcha_audio_button"> Play captcha audio </button> ```
+then include the MultiAudioPlayer.js class, giving it the audio and button css classes and the reading pauses milliseconds : ``` new multiAudioPlayer('.captcha_audio', '.captcha_audio_button', 800); ```
+
+
 # demo
 You can try a simple form implementation including demo.php in your project.
 Please remove the file when no more needed.
