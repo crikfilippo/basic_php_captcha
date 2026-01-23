@@ -16,9 +16,9 @@ A simple php class to generate and check captcha values.
 
 # audio player
 You can obtain an array of base64 audios by using ```Captcha::getB64($captchaValue,'audio','en');```
-on your page, add all the obtained audios using <b>hidden</b> audio elements: ``` echo "<audio style=\"display:none;\" class=\"captcha_audio\" src=\"data:audio/mpeg;base64,{$a}\"></audio>"; ```
-and a button to play them all: ``` <button type="button" class="captcha_audio_button"> Play captcha audio </button> ```
-then include the MultiAudioPlayer.js class, giving it the audio and button css classes and the reading pauses milliseconds : ``` new multiAudioPlayer('.captcha_audio', '.captcha_audio_button', 800); ```
+<br>on your page, add all the obtained audios using <b>hidden</b> audio elements: ``` echo "<audio style=\"display:none;\" class=\"captcha_audio\" src=\"data:audio/mpeg;base64,{$a}\"></audio>"; ```
+<br>and a button to play them all: ``` <button type="button" class="captcha_audio_button"> Play captcha audio </button> ```
+<br>then include the MultiAudioPlayer.js class, giving it the audio and button css classes and the reading pauses milliseconds : ``` new multiAudioPlayer('.captcha_audio', '.captcha_audio_button', 800); ```
 
 
 # demo
