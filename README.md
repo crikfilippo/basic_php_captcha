@@ -1,4 +1,4 @@
-# basic_php_captcha
+# basic_captcha
 A simple php class to generate and check captcha values.
 <br><br>Notes:
 <br>- Single file class, no database needed.
