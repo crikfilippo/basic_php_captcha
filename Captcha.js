@@ -4,14 +4,12 @@ class Captcha{
 	//--BASIC CAPTCHA--
 	//-----------------
 	//
-	//
 	//@author Filippo Maria Grilli
 	//@github crikfilippo
 	//@version 1.0.0
 	//@since 2026-01-15
 	//@license MIT
 	//@link https://github.com/crikfilippo/basic_captcha
-	//
 	//
 	//-----------------
 	//---USE EXAMPLE---
@@ -21,11 +19,8 @@ class Captcha{
 	//captcha.setAudioNodes('.captcha_audio');
 	//captcha.setAudioPlayer('#captcha_audio_button');
 	//  
-	//  
-	//  
 
-
-	className = 'Captcha';
+	instanceName = undefined;
 	wrapper = undefined;
 	logEnabled = undefined;
 	audio = {	
@@ -41,10 +36,12 @@ class Captcha{
 		try{
 			
 			//check and default params
+			params.instanceName = params.instanceName ?? 'Basic Captcha';
 			params.wrapperQuery = params.wrapperQuery ?? '#captcha-wrapper';
 			params.logEnabled = params.logEnabled ?? true;
 			params.audioPauseDurationMs = params.audioPauseDurationMs ?? 800;
 			
+			this.instanceName = params.instanceName;
 			this.logEnabled = params.logEnabled;
 			this.log('loading...',fName);
 			this.wrapper = document.querySelector(params.wrapperQuery);
@@ -121,9 +118,9 @@ class Captcha{
 		
 		if( ! this.logEnabled){ return; }
 		trunks = Array.isArray(trunks) ? trunks : [trunks];
-		if(level == 2){ console.error('[ERROR] '+this.className+' '+fName+' : ',...trunks); }
-		else if(level == 1){ console.log('[WARNING] '+this.className+' '+fName+' : ',...trunks); }
-		else if(level == 0){ console.log('[LOG] '+this.className+' '+fName+' : ',...trunks); }
+		if(level == 2){ console.error('[ERROR] '+this.instanceName+' '+fName+' : ',...trunks); }
+		else if(level == 1){ console.log('[WARNING] '+this.instanceName+' '+fName+' : ',...trunks); }
+		else if(level == 0){ console.log('[LOG] '+this.instanceName+' '+fName+' : ',...trunks); }
 		
 	}
 
