@@ -1,39 +1,144 @@
-//----------------------------------
-//---MULTIPLE AUDIO CONCATENATION---
-//----------------------------------
+class Captcha{
+	
+	//-----------------
+	//--BASIC CAPTCHA--
+	//-----------------
+	//
+	//
+	//@author Filippo Maria Grilli
+	//@github crikfilippo
+	//@version 1.0.0
+	//@since 2026-01-15
+	//@license MIT
+	//@link https://github.com/crikfilippo/basic_php_captcha
+	//
+	//
+	//-----------------
+	//---USE EXAMPLE---
+	//-----------------
+	//
+	//let captcha = new Captcha({'wrapperQuery':'#captcha-wrapper' ,'logEnabled':true ,'audioPauseDurationMs':800});
+	//captcha.setAudioNodes('.captcha_audio');
+	//captcha.setAudioPlayer('#captcha_audio_button');
+	//  
+	//  
+	//  
 
-class multiAudioPlayer{
 
-  audios = [];
-  button = {"play":null};
-  msWait = 0;
+	className = 'Captcha';
+	wrapper = undefined;
+	logEnabled = undefined;
+	audio = {	
+		nodes : []
+		,buttons : { play : undefined }
+		,waitMs : undefined
+	};
 
-  //create instance giving audio element tag/.class/#id, play button tag/.class/#id, pause time in milliseconds
-  constructor(audioQuery = 'audio',playButtonQuery = 'button',msWait = 800){
+	//constructor
+	constructor(params = {}){ 
+		
+		var fName = 'constructor';
+		try{
+			
+			//check and default params
+			params.wrapperQuery = params.wrapperQuery ?? '#captcha-wrapper';
+			params.logEnabled = params.logEnabled ?? true;
+			params.audioPauseDurationMs = params.audioPauseDurationMs ?? 800;
+			
+			this.logEnabled = params.logEnabled;
+			this.log('loading...',fName);
+			this.wrapper = document.querySelector(params.wrapperQuery);
+			if(this.wrapper == undefined){ this.warning('wrapper node not found',fName); }
+			this.audio.waitMs = params.audioPauseDurationMs;
+			
+		}catch(e){ this.error(e,fName); }
+	}
 
-    this.audios = document.querySelectorAll(audioQuery);
-    this.buttons = {"play":document.querySelector(playButtonQuery)};
-    this.msWait = msWait;
+	//fetch all the <audio> nodes to play
+	setAudioNodes(audioNodeQuery = 'audio'){
+		var fName = 'setAudioNodes';
+		try{
+			
+			this.audio.nodes = document.querySelectorAll(audioNodeQuery);
+			if(this.audio.nodes.length == 0){ throw new Error('no audio nodes found'); }
+			
+		}catch(e){ this.error(e,fName); }
+	}
+	
+	//set the player controls
+	setAudioPlayer(playButtonQuery = 'button'){
+		var fName = 'setAudioPlayer';
+		try{
+		
+			this.audio.buttons.play = document.querySelector(playButtonQuery);
+			if(this.audio.buttons.play == undefined){ throw new Error('play button not found');  }
 
-    this.buttons.play.addEventListener('click', async () => {
-      this.buttons.play.setAttribute('disabled',true);
-      for(var a of this.audios){ a.play(); await this.waitForEnd(a); await this.wait(this.msWait); }
-      this.buttons.play.removeAttribute('disabled',true);
-    });
+			this.audio.buttons.play.addEventListener('click', async () => {
+				this.audio.buttons.play.setAttribute('disabled',true);
+				this.playAudio();
+				this.audio.buttons.play.removeAttribute('disabled',true);
+				
+			});
+			
+		}catch(e){ this.error(e,fName); }
+	}
 
-  }
+	//play all the audio files
+	async playAudio(){
+		var fName = 'playAudio';
+		try{
+			
+			for(const audioNode of this.audio.nodes){
+				audioNode.play(); 
+				await this.waitForAudioToEnd(audioNode); 
+				await this.wait(this.audio.waitMs); 
+			}
+			
+		}catch(e){ this.error(e,fName); }
+	}
 
-  //wait for audio to end
-  async waitForEnd(audio) {
-    return new Promise((resolve) => {
-      audio.addEventListener('ended', resolve, { once: true });
-    });
-  }
+	//wait for the audio to end
+	async waitForAudioToEnd(audioNode = undefined) {
+		var fName = 'waitForAudioToEnd';
+		try{
+			
+			if(audioNode == undefined){ throw new Error('audio node not found');  }
+			return new Promise((resolve) => {
+				audioNode.addEventListener('ended', resolve, { once: true });
+			});
+		
+		}catch(e){ this.error(e,fName); }
+	}
 
-  //wait time after each reading, in milliseconds
-  async wait(ms = 800) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+	//wait utility
+	async wait(ms = undefined) {
+		ms = ms == undefined ? this.waitMs : ms;
+		return new Promise((resolve) => setTimeout(resolve, ms));
+	}
+
+	//logging utility
+	log(trunks = ['hey'],fName = '',level = 0){
+		
+		if( ! this.logEnabled){ return; }
+		trunks = Array.isArray(trunks) ? trunks : [trunks];
+		if(level == 2){ console.error('[ERROR] '+this.className+' '+fName+' : ',...trunks); }
+		else if(level == 1){ console.log('[WARNING] '+this.className+' '+fName+' : ',...trunks); }
+		else if(level == 0){ console.log('[LOG] '+this.className+' '+fName+' : ',...trunks); }
+		
+	}
+
+	//logging utility
+	error(trunks = ['hey'],fName = ''){
+		
+		this.log(trunks,fName,true);
+		
+	}
+
+	//logging utility
+	warning(trunks = ['hey'],fName = ''){
+		
+		this.log(trunks,fName,true);
+		
+	}
 
 }
-	
