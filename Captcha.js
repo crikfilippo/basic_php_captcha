@@ -10,7 +10,7 @@ class Captcha{
 	//@version 1.0.0
 	//@since 2026-01-15
 	//@license MIT
-	//@link https://github.com/crikfilippo/basic_php_captcha
+	//@link https://github.com/crikfilippo/basic_captcha
 	//
 	//
 	//-----------------
